@@ -16,5 +16,5 @@ Config
 Once you have run the game with the mod once, a new file mc.starvalor.showcrewskillrarityprogress.cfg will be created in .\SteamLibrary\steamapps\common\Star Valor\BepInEx\config.  
 
 Show only with tutor?  
-  true => only show if player has the Tutor perk.
+  true => only show if player has the Tutor perk.  
   false => always show.  
