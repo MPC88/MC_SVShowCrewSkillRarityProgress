@@ -17,4 +17,4 @@ Once you have run the game with the mod once, a new file mc.starvalor.showcrewsk
 
 Show only with tutor?  
   true => only show if player has the Tutor perk.  
-  false => always show.  
+  false => always show (default).  
