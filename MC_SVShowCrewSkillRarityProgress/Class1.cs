@@ -11,7 +11,7 @@ namespace MC_SVShowCrewSkillRarityProgress
     {
         public const string pluginGuid = "mc.starvalor.showcrewskillrarityprogress";
         public const string pluginName = "SV Show Crew Skill Rarity Progress";
-        public const string pluginVersion = "1.0.0";
+        public const string pluginVersion = "1.0.1";
 
         private const int idTutor = 314;
 
@@ -32,13 +32,25 @@ namespace MC_SVShowCrewSkillRarityProgress
 
         [HarmonyPatch(typeof(CrewSkill), nameof(CrewSkill.GetString))]
         [HarmonyPostfix]
-        private static void CrewSkillGetString_Post(CrewSkill __instance, ref string __result)
+        private static void CrewSkillGetString_Post(CrewSkill __instance, CrewMember crewMember, ref string __result)
         {
             if (!tutorOnly.Value || PChar.Char.HasPerk(idTutor))
             {
-                int progress = Mathf.RoundToInt(((__instance.value % 3000) / 3000f) * 100);
+                string additional = "";
 
-                __result = "(" + progress + "%) " + __result;
+                int max = crewMember.learningMode == 0 || crewMember.learningMode == 3 ? __instance.Rank(true) : __instance.Rank(true) + 1;
+                int total = 0;
+                __instance.skillBonus.ForEach(x => total += x.level);
+
+                if (__instance.Rank(true) == crewMember.maxSkillLevel && total >= max)
+                    additional = "(-%) ";
+                else
+                {
+                    int progress = Mathf.RoundToInt(((__instance.value % 3000) / 3000f) * 100);
+                    additional = "(" + progress + "%)";
+                }
+
+                __result = additional + __result;
             }
         }
     }
